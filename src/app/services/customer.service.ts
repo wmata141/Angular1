@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { customerInterface } from '../../models/customer.interface';
+import { customerInterface } from "../../models/customer.interface";
 
-export interface idCustomer extends customerInterface { id: string }
+export interface idCustomer extends customerInterface { id: string; }
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,13 @@ export interface idCustomer extends customerInterface { id: string }
 export class CustomerService {
 
   private customerCollection: AngularFirestoreCollection<customerInterface>;
-  customers: Observable<customerInterface>
+  customers: Observable<idCustomer[]>;
+  public selected = {
+    id: null,
+    name: '',
+    city: '',
+    order: ''
+  }
 
   constructor(
     private readonly afs: AngularFirestore
@@ -22,12 +28,26 @@ export class CustomerService {
       map( actions => actions.map( a => {
         const data = a.payload.doc.data() as customerInterface;
         const id = a.payload.doc.id;
-        return {  id, ...data };
+        return { id, ...data};
       }))
     );
   }
 
   getAllCustumer() {
     return this.customers;
+  }
+
+  addCustomer(customer: customerInterface) {
+    return this.customerCollection.add(customer);
+  }
+
+  editCustomer(customer: idCustomer) {
+    let id = customer.id;
+    return this.customerCollection.doc(id).update(customer)
+  }
+
+  deleteCustomer(id: string) {
+    console.log("deleteCustomer()",id)
+    return this.customerCollection.doc(id).delete();
   }
 }
