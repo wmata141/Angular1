@@ -10,7 +10,6 @@ export interface idCustomer extends customerInterface { id: string; }
   providedIn: 'root'
 })
 export class CustomerService {
-
   private customerCollection: AngularFirestoreCollection<customerInterface>;
   customers: Observable<idCustomer[]>;
   public selected = {
