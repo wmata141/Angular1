@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CustomerService } from '../../services/customer.service';
+import {MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-form',
@@ -9,7 +10,9 @@ import { CustomerService } from '../../services/customer.service';
 export class FormComponent implements OnInit {
 
   constructor(
-    public customer: CustomerService
+    public customer: CustomerService,
+    public dialogRef: MatDialogRef<FormComponent>,
+    @Inject(MAT_DIALOG_DATA) data
   ) { }
 
   ngOnInit() {
@@ -28,6 +31,11 @@ export class FormComponent implements OnInit {
     } else {
       this.customer.editCustomer(this.customer.selected)
     }    
+    this.close();
+  }
+
+  close(): void {
+    this.dialogRef.close();
   }
   
 }
