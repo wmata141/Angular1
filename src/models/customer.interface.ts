@@ -1,5 +1,6 @@
 export interface customerInterface {
-    name: string;
-    city: string;
-    order: string;    
-  }
+  id: string;
+  name: string;
+  city: string;
+  order: string;
+}
