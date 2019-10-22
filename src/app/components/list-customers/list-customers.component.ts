@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
 import { customerInterface } from "../../../models/customer.interface";
 import { CustomerService } from '../../services/customer.service'
 import { MatDialog, MatDialogConfig } from '@angular/material'
@@ -12,20 +13,22 @@ import { FormComponent } from '../form/form.component';
 })
 export class ListCustomersComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'city', 'order', 'actions', 'new'];
+  displayedColumns: string[] = ['name', 'city', 'order', 'update', 'delete', 'new'];
   dataSource = new MatTableDataSource();
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
   constructor(
     private customerService: CustomerService,
     private dialog: MatDialog
   ) { }
 
   ngOnInit() {
-    console.log("ngOnInit")
     this.customerService.getAllCustumer().subscribe(res => {
       this.dataSource.data = res
     })
+    this.dataSource.paginator = this.paginator;
   }
 
   ngAfterViewInit() {
@@ -37,8 +40,8 @@ export class ListCustomersComponent implements OnInit {
   }
 
   onEdit(element) {
-    this.resetForm()
-    this.openModal()
+    // this.resetForm()
+    this.openModal(element)
     if (element) {
       console.log("element", element)
       this.customerService.selected = element
@@ -50,20 +53,20 @@ export class ListCustomersComponent implements OnInit {
     this.customerService.deleteCustomer(id)
   }
 
-  openModal(): void {
+  openModal(element): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
-      title: 'Modal'
+      element: element
     };
     dialogConfig.autoFocus = true;
-    this.dialog.open(FormComponent, dialogConfig);
+    this.dialog.open(FormComponent, dialogConfig);  
   }
 
-  resetForm(): void {
-    this.customerService.selected.id = null;
-    this.customerService.selected.name = '';
-    this.customerService.selected.city = '';
-    this.customerService.selected.order = '';
-  }
+  // resetForm(): void {
+  //   this.customerService.selected.id = null;
+  //   this.customerService.selected.name = '';
+  //   this.customerService.selected.city = '';
+  //   this.customerService.selected.order = '';
+  // }
 
 }

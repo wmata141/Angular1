@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
     <mat-form-field>
         <input matInput placeholder="Name" name="name" [(ngModel)]="this.customer.selected.name">
     </mat-form-field>
@@ -11,4 +11,43 @@
     <button mat-flat-button color="primary" (click)="onSave()">
         <mat-icon>save</mat-icon>Save
     </button>
-</div>
+</div> -->
+
+<form class="container" [formGroup]="contactForm" (ngSubmit)="onSaveForm()">
+    <mat-form-field>
+        <input matInput formControlName="name" placeholder="Name">
+    </mat-form-field>
+    <div class="alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)" >
+        <div class="container-error-message" *ngIf="name.errors.required">
+            Name is required
+        </div>
+        <div class="container-error-message" *ngIf="name.errors.minlength">
+            Not long enough 
+        </div>
+    </div>
+    <mat-form-field>
+        <input matInput formControlName="city" placeholder="City">
+    </mat-form-field>
+    <div class="alert-danger" *ngIf="city.invalid && (city.dirty || city.touched)" >
+            <div class="container-error-message" *ngIf="city.errors.required">
+                City is required
+            </div>
+            <div class="container-error-message" *ngIf="city.errors.minlength">
+                Not long enough 
+            </div>
+        </div>
+    <mat-form-field>
+        <input matInput formControlName="order" placeholder="Order">
+    </mat-form-field>
+    <div class="alert-danger" *ngIf="order.invalid && (order.dirty || order.touched)" >
+            <div class="container-error-message" *ngIf="order.errors.required">
+                Order is required
+            </div>
+            <div class="container-error-message" *ngIf="order.errors.minlength">
+                Not long enough 
+            </div>
+        </div>
+    <button type="submit" mat-flat-button color="primary" [disabled]="!contactForm.valid">
+        <mat-icon>save</mat-icon>Save
+    </button>
+</form>
