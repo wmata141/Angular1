@@ -14,6 +14,7 @@ import { FormComponent } from './components/form/form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { ListEmployeesComponent } from './components/list-employees/list-employees.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ListEmployeesComponent } from './components/list-employees/list-employe
     ToolbarComponent,
     FormComponent,
     MainNavComponent,
-    ListEmployeesComponent,    
+    ListEmployeesComponent,
+    SpinnerComponent,    
   ],
   imports: [
     BrowserModule,
